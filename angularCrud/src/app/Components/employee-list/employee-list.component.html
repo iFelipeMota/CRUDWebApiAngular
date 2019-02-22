@@ -1,16 +1,11 @@
-<h2>Employee</h2>
-<hr>
-<p>
-  <a [routerLink]="['/employee/new']" class="btn btn-primary">New Employee</a>
-</p>
 <table class="table">
     <thead>
       <tr>
-          <th>Sr.</th>
-          <th>Name</th>
-          <th>Father Name</th>
-          <th>Address</th>
-          <th>City</th>
+          <th>Nº</th>
+          <th>Nome</th>
+          <th>Sobrenome</th>
+          <th>Endereço</th>
+          <th>Cidade</th>
           <th></th>
       </tr>
     </thead>
@@ -23,7 +18,10 @@
             <td>{{ b.address }}</td>
             <td>{{ b.city }}</td>
             <td>
-              <a [routerLink]="['/employee/', b.id]">Edit</a>
+              <button [routerLink]="['/employee/', b.id]">Edit</button>
+            </td>
+            <td>
+                <button (click)="delete(b.id)">Delete</button>
             </td>
           </tr>
     </tbody>

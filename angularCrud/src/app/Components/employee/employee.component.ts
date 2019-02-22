@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { EmployeeService } from './../../services/employee.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ViewChild } from '@angular/core';
+import { EmployeeListComponent } from '../employee-list/employee-list.component';
+
 @Component({
   selector: 'app-employee',
   templateUrl: './employee.component.html',
@@ -8,10 +11,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class EmployeeComponent implements OnInit {
 
+  @ViewChild('f') formValues;
+
   employee: any = {
     id:0,
   };
-
 
   id:any;
   name: any;
@@ -37,20 +41,22 @@ export class EmployeeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.employeeService.getEmployee(this.employee.id)
-    .subscribe(
-      response => {
-        if (response.ok) {
-          this.employee = response.body;
+    if(this.employee.id)
+      this.employeeService.getEmployee(this.employee.id)
+      .subscribe(
+        response => {
+          if (response.ok) {
+            this.employee = response.body;
+          }
         }
-      }
-    );
+      );
   }
 
 
   submit(){
-    debugger;
-    this.employee.id = 0;
+    //debugger;
+    this.employee.id = this.employee.id || 0;
+    console.log(this.employee);
     if(this.employee.id != 0)
     {
       this.employeeService.update(this.employee)
@@ -64,9 +70,12 @@ export class EmployeeComponent implements OnInit {
       this.employeeService.create(this.employee)
         .subscribe( x => 
           {
-            console.log(x),
-            this.router.navigate(['/employee'])
+            console.log(x)
+            //this.router.navigate(['/employee'])
+            this.router.navigateByUrl('/employees', {skipLocationChange: true}).then(()=>
+            this.router.navigate(['/employee']));
           });
+      this.formValues.resetForm();
     }
   }
 

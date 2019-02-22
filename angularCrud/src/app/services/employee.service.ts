@@ -9,7 +9,7 @@ export class EmployeeService {
   nomeRecurso = 'employees';
 
   create(employee:any){
-    return this.http.post(this.apiUrl+this.nomeRecurso, employee, {
+    return this.http.post(`${this.apiUrl}${this.nomeRecurso}`, employee, {
       observe: 'response'
     });
   }
@@ -19,10 +19,14 @@ export class EmployeeService {
     })
   }
   update(employee: any){
-    return this.http.put('/api/employees/' + employee.id, employee)
+    return this.http.put(`${this.apiUrl}${this.nomeRecurso}/${employee.id}`, employee, {
+      observe: 'response'
+    })
   }
   delete(id: number){
-    return this.http.delete('/api/employees/' + id)
+    return this.http.delete(`${this.apiUrl}${this.nomeRecurso}/${id}`, {
+      observe: 'response'
+    })
   }
   getEmployees()
   {
